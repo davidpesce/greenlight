@@ -22,6 +22,19 @@ services:
 # When using postgresql as the database
     links:
       - db
+      - webserver
+
+  webserver:
+    image: nginx:alpine
+    container_name: greenlight-nginx
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:80:80
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    links:
+      - webserver
+
   db:
     image: postgres:9.5
     restart: unless-stopped
